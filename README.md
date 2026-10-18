@@ -13,7 +13,8 @@ URL.
 ### 1. Imports and dataset preparation
 
 The notebook uses PyTorch and Torchvision for the model, dataset and image
-transforms, and Matplotlib for inspecting images. It loads CIFAR-10 with
+transforms, Matplotlib for inspecting images, and NumPy and Seaborn to
+calculate and plot the confusion matrix. It loads CIFAR-10 with
 `torchvision.datasets.CIFAR10`. The dataset has 10 object categories and
 32 × 32 RGB images.
 
@@ -72,10 +73,9 @@ probabilities in the app.
 ### 5. Training and validation
 
 The notebook trains with `CrossEntropyLoss` and the Adam optimizer at a
-learning rate of `0.001`. Training runs for 30 epochs. The training loop puts
-the model in training mode, computes the loss for each batch, backpropagates
-the gradients, and updates the weights. It prints a training-loss sample
-every 100 batches.
+learning rate of `0.001` for 100 epochs. The training loop puts the model in
+training mode, computes the loss for each batch, backpropagates the gradients,
+and updates the weights. It prints a training-loss sample every 100 batches.
 
 After each epoch, the evaluation function switches the model to evaluation
 mode and measures loss and classification accuracy on the validation set
@@ -84,14 +84,17 @@ training progress and compare model changes.
 
 After training, the notebook evaluates on the separate test set and saves the
 model parameters to `cifar10_cnn.pth`. The included checkpoint corresponds
-to the model architecture in `model_def.py`.
+to the model architecture in `model_def.py`. The notebook also plots an
+un-normalized confusion matrix for the test set, showing the number of
+predictions in each true/predicted class pair and which classes the model
+most often confuses.
 
 ### Recorded results
 
-The saved notebook output records **84.14% validation accuracy at epoch 30**
-and **82.72% test accuracy** for one training run. These are reference
-results from that run, not guarantees: training can vary with initialization,
-data order and software/hardware versions.
+The saved notebook output records **84.86% validation accuracy at epoch 100**
+and **83.84% test accuracy** for one training run. These are reference results
+from that run, not guarantees: training can vary with initialization, data
+order and software/hardware versions.
 
 Use validation performance when tuning the architecture and training
 settings. Keep the test set for a final evaluation after those choices are
