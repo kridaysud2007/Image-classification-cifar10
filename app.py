@@ -6,7 +6,6 @@ import streamlit as st
 import torch
 from PIL import Image, UnidentifiedImageError
 from torchvision import transforms
-
 from model_def import NeuralNetwork
 
 MAX_IMAGE_BYTES = 5 * 1024 * 1024
@@ -15,6 +14,7 @@ CLASSES = [
     "airplane", "automobile", "bird", "cat", "deer",
     "dog", "frog", "horse", "ship", "truck",
 ]
+
 
 device = torch.device(
     "mps" if torch.backends.mps.is_available()
@@ -45,6 +45,11 @@ preprocess = transforms.Compose([
 
 st.title("CIFAR-10 Image Classifier")
 st.write("Upload an image or paste an image URL to see the model's top predictions.")
+st.subheader("Classes this model can predict")
+st.markdown("\n".join(
+    f"- **{class_name.capitalize()}**"
+    for class_name in CLASSES
+))
 
 source = st.radio("Image source", ["Upload an image", "Paste an image URL"])
 image = None
