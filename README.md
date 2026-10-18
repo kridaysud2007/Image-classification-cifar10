@@ -73,9 +73,15 @@ probabilities in the app.
 ### 5. Training and validation
 
 The notebook trains with `CrossEntropyLoss` and the Adam optimizer at a
-learning rate of `0.001` for 100 epochs. The training loop puts the model in
-training mode, computes the loss for each batch, backpropagates the gradients,
-and updates the weights. It prints a training-loss sample every 100 batches.
+learning rate of `0.001` for 100 epochs. It now also uses a
+`ReduceLROnPlateau` learning-rate scheduler, which reduces the learning rate
+when validation loss plateaus. This helps the model converge more smoothly and
+stabilizes training, leading to better final validation and test accuracy than
+a fixed learning rate alone.
+
+The training loop puts the model in training mode, computes the loss for each
+batch, backpropagates the gradients, and updates the weights. It prints a
+training-loss sample every 100 batches.
 
 After each epoch, the evaluation function switches the model to evaluation
 mode and measures loss and classification accuracy on the validation set
@@ -91,10 +97,13 @@ most often confuses.
 
 ### Recorded results
 
-The saved notebook output records **84.86% validation accuracy at epoch 100**
-and **83.84% test accuracy** for one training run. These are reference results
-from that run, not guarantees: training can vary with initialization, data
-order and software/hardware versions.
+The current training setup uses a learning-rate scheduler, and the validation
+and test accuracy have improved as a result. The saved notebook output records
+**86.3% validation accuracy at epoch 100** and **85.48% test accuracy** for
+one training run; the scheduler helps the model reach a stronger final result
+than the earlier fixed-rate configuration. These are reference results from
+that run, not guarantees: training can vary with initialization, data order
+and software/hardware versions.
 
 Use validation performance when tuning the architecture and training
 settings. Keep the test set for a final evaluation after those choices are
